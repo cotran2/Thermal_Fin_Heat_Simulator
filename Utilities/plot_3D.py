@@ -22,7 +22,6 @@ def plot_mesh_3D(mesh, title, angle):
     
     return my_mplot_mesh(ax, mesh)
 
-
 def my_mplot_mesh(ax, mesh, **kwargs):
     tdim = mesh.topology().dim()
     gdim = mesh.geometry().dim()

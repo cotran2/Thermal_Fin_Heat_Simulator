@@ -2,6 +2,7 @@ import numpy as np
 from scipy import linalg, spatial
 from fenics import Function, plot
 import matplotlib.pyplot as plt
+import pdb #Equivalent of keyboard in MATLAB, just add "pdb.set_trace()"
 
 def make_cov_chol(V, kern_type='m52', length=1.6):
     Wdofs_x = V.tabulate_dof_coordinates().reshape((-1, 2))
@@ -23,8 +24,10 @@ def make_cov_chol(V, kern_type='m52', length=1.6):
         # Matern32
         tmp = np.sqrt(3) * dists / length
         cov = (1 + tmp) * np.exp(-tmp)
-
-    chol = linalg.cholesky(cov)
+    
+    machine_eps = np.finfo(float).eps
+    diagonal_perturbation = 10**10*machine_eps*np.identity(cov.shape[0])
+    chol = linalg.cholesky(cov + diagonal_perturbation)
     return chol
 
 #  V = get_space(40)

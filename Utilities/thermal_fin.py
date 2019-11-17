@@ -24,9 +24,9 @@ def get_space_2D(resolution):
     mesh = generate_mesh(geometry, resolution)    
     
     #=== Plotting Mesh ===#
-    plot(mesh)
-    plt.show()
-    
+    #plot(mesh)
+    #plt.show()
+
     #=== Generating Function Space ===#
     V = FunctionSpace(mesh, 'CG', 1)
 
@@ -51,12 +51,10 @@ def get_space_3D(resolution):
     mesh = generate_mesh(geometry, resolution)
     
     #=== Plotting Mesh ===#
-    plot_mesh_3D(mesh, title = '3D Thermal Fin', angle = 180)
-    plt.show()
+    #plot_mesh_3D(mesh, title = '3D Thermal Fin', angle = 180)
+    #plt.show()
     
     #=== Generating Function Space ===#
     V = FunctionSpace(mesh, 'CG', 1)
-
-    pdb.set_trace()
 
     return V, mesh
