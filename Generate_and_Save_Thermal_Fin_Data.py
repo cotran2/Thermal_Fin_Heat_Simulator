@@ -14,9 +14,9 @@ import numpy as np
 import pandas as pd
 import dolfin as dl
 import matplotlib as plt
-from Fenics_Thermal_Fin_Heat_Simulator.Utilities.gaussian_field import make_cov_chol
-from Fenics_Thermal_Fin_Heat_Simulator.Utilities.forward_solve import Fin
-from Fenics_Thermal_Fin_Heat_Simulator.Utilities.thermal_fin import get_space
+from Thermal_Fin_Heat_Simulator.Utilities.gaussian_field import make_cov_chol
+from Thermal_Fin_Heat_Simulator.Utilities.forward_solve import Fin
+from Thermal_Fin_Heat_Simulator.Utilities.thermal_fin import get_space
 
 import pdb #Equivalent of keyboard in MATLAB, just add "pdb.set_trace()"
 
