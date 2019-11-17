@@ -136,13 +136,13 @@ if __name__ == "__main__":
     
     data_file_name = train_or_test + '_' + str(num_data) + fin_dimension + parameter_type 
       
-    parameter_savefilepath = '../../Datasets/Thermal_Fin/' + 'parameter_' + train_or_test + '_%d' %(num_data) + fin_dimension + parameter_type
+    parameter_savefilepath = '../Datasets/Thermal_Fin/' + 'parameter_' + train_or_test + '_%d' %(num_data) + fin_dimension + parameter_type
 
-    observation_indices_full_savefilepath = '../../Datasets/Thermal_Fin/' + 'obs_indices_full' + fin_dimension
-    observation_indices_bnd_savefilepath = '../../Datasets/Thermal_Fin/' + 'obs_indices_bnd' + fin_dimension
+    observation_indices_full_savefilepath = '../Datasets/Thermal_Fin/' + 'obs_indices_full' + fin_dimension
+    observation_indices_bnd_savefilepath = '../Datasets/Thermal_Fin/' + 'obs_indices_bnd' + fin_dimension
     
-    state_full_savefilepath = '../../Datasets/Thermal_Fin/' + 'state_' + train_or_test + '_%d' %(num_data) + fin_dimension + '_full' + parameter_type
-    state_bnd_savefilepath = '../../Datasets/Thermal_Fin/' + 'state_' + train_or_test + '_%d' %(num_data) + fin_dimension + '_bnd' + parameter_type
+    state_full_savefilepath = '../Datasets/Thermal_Fin/' + 'state_' + train_or_test + '_%d' %(num_data) + fin_dimension + '_full' + parameter_type
+    state_bnd_savefilepath = '../Datasets/Thermal_Fin/' + 'state_' + train_or_test + '_%d' %(num_data) + fin_dimension + '_bnd' + parameter_type
 
     #############################
     #   Generate and Save Data  #
