@@ -7,6 +7,8 @@ Created on Fri Sep 20 19:12:38 2019
 
 To avoid using dolfin when training the neural network, the data generation and file is separated. Run this to generate and save thermal fin data.
 """
+import sys
+sys.path.append('..')
 
 import numpy as np
 import pandas as pd
@@ -15,7 +17,7 @@ import matplotlib as plt
 from Generate_Thermal_Fin_Data.Utilities.gaussian_field import make_cov_chol
 from Generate_Thermal_Fin_Data.Utilities.forward_solve import Fin
 from Generate_Thermal_Fin_Data.Utilities.thermal_fin import get_space
-import os
+
 import pdb #Equivalent of keyboard in MATLAB, just add "pdb.set_trace()"
 
 ###############################################################################
