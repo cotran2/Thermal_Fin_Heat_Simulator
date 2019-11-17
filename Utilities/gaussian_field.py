@@ -1,4 +1,3 @@
-from Thermal_Fin_Heat_Simulator.Utilities.thermal_fin import get_space
 import numpy as np
 from scipy import linalg, spatial
 from fenics import Function, plot

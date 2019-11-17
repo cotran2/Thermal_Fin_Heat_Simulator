@@ -3,7 +3,7 @@
 """
 Created on Fri Sep 20 19:12:38 2019
 
-@author: hwan
+@author: Sheroze Sheriffdeen, Oden Institute of Computational Sciences and Engineering
 
 To avoid using dolfin when training the neural network, the data generation and file is separated. Run this to generate and save thermal fin data.
 """
@@ -16,20 +16,23 @@ import dolfin as dl
 import matplotlib as plt
 from Thermal_Fin_Heat_Simulator.Utilities.gaussian_field import make_cov_chol
 from Thermal_Fin_Heat_Simulator.Utilities.forward_solve import Fin
-from Thermal_Fin_Heat_Simulator.Utilities.thermal_fin import get_space
+from Thermal_Fin_Heat_Simulator.Utilities.thermal_fin import get_space_2D, get_space_3D
 
 import pdb #Equivalent of keyboard in MATLAB, just add "pdb.set_trace()"
 
 ###############################################################################
 #                        Generate Parameters and Data                         #
 ############################################################################### following Sheroze's "test_thermal_fin_gradient.py" code
-def generate_thermal_fin_data(data_file_name, num_data, generate_nine_parameters, generate_varying):
+def generate_thermal_fin_data(data_file_name, num_data, generate_nine_parameters, generate_varying, generate_2D, generate_3D):
     #=== Generate Dolfin function space and mesh ===#
-    V, mesh = get_space(40)
+    if generate_2D == 1:
+        V, mesh = get_space_2D(40)
+    if generate_3D == 1:    
+        V, mesh = get_space_3D(40)
+    print(V.dim())  
+        
     solver = Fin(V)    
-    
-    print(V.dim())    
-    
+  
     #=== Create storage arrays ===#
     if generate_nine_parameters == 1:
         parameter_data = np.zeros((num_data, 9))
@@ -93,7 +96,7 @@ def convert_array_to_dolfin_function(V, nodal_values):
     return nodal_values_dl  
 
 ###############################################################################
-#                                  Executor                                   #
+#                                  Driver                                     #
 ###############################################################################
 if __name__ == "__main__":  
 
@@ -111,6 +114,10 @@ if __name__ == "__main__":
     generate_nine_parameters = 0
     generate_varying = 1
     
+    #=== Select Thermal Fin Dimension ===#
+    generate_2D = 0
+    generate_3D = 1
+    
     #=== Defining Filenames and Creating Directories ===#
     if generate_train_data == 1:
         train_or_test = 'train'
@@ -120,22 +127,26 @@ if __name__ == "__main__":
         parameter_type = '_nine'        
     if generate_varying == 1:
         parameter_type = '_vary'
+    if generate_2D == 1:
+        fin_dimension = ''
+    if generate_3D == 1:
+        fin_dimension = '_3D'
     
     data_file_name = train_or_test + '_' + str(num_data) + parameter_type
       
-    parameter_savefilepath = '../../Datasets/Thermal_Fin/' + 'parameter_' + train_or_test + '_%d' %(num_data) + parameter_type
+    parameter_savefilepath = '../../Datasets/Thermal_Fin/' + 'parameter_' + train_or_test + '_%d' %(num_data) + fin_dimension + parameter_type
 
-    observation_indices_full_savefilepath = '../../Datasets/Thermal_Fin/' + 'obs_indices_full'
-    observation_indices_bnd_savefilepath = '../../Datasets/Thermal_Fin/' + 'obs_indices_bnd'
+    observation_indices_full_savefilepath = '../../Datasets/Thermal_Fin/' + 'obs_indices_full' + fin_dimension
+    observation_indices_bnd_savefilepath = '../../Datasets/Thermal_Fin/' + 'obs_indices_bnd' + fin_dimension
     
-    state_full_savefilepath = '../../Datasets/Thermal_Fin/' + 'state_' + train_or_test + '_%d' %(num_data) + '_full' + parameter_type
-    state_bnd_savefilepath = '../../Datasets/Thermal_Fin/' + 'state_' + train_or_test + '_%d' %(num_data) + '_bnd' + parameter_type
+    state_full_savefilepath = '../../Datasets/Thermal_Fin/' + 'state_' + train_or_test + '_%d' %(num_data) + fin_dimension + '_full' + parameter_type
+    state_bnd_savefilepath = '../../Datasets/Thermal_Fin/' + 'state_' + train_or_test + '_%d' %(num_data) + fin_dimension + '_bnd' + parameter_type
 
     #############################
     #   Generate and Save Data  #
     ############################# 
     #=== Generating Data ===#   
-    parameter_data, state_data_full, state_data_bnd, obs_indices_full, obs_indices_bnd = generate_thermal_fin_data(data_file_name, num_data, generate_nine_parameters, generate_varying)
+    parameter_data, state_data_full, state_data_bnd, obs_indices_full, obs_indices_bnd = generate_thermal_fin_data(data_file_name, num_data, generate_nine_parameters, generate_varying, generate_2D, generate_3D)
     
     #=== Saving Data ===#  
     df_parameter_data = pd.DataFrame({'parameter_data': parameter_data.flatten()})
