@@ -115,7 +115,7 @@ if __name__ == "__main__":
     #   Run Options and File Names  #
     #################################     
     #=== Number of Data ===#
-    num_data = 10
+    num_data = 50000
 
     #=== Select True or Test Set ===#
     generate_train_data = 1
