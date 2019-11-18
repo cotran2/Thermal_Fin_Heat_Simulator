@@ -15,10 +15,9 @@ import pandas as pd
 import dolfin as dl
 import matplotlib as plt
 from Thermal_Fin_Heat_Simulator.Utilities.gaussian_field import make_cov_chol
-from Thermal_Fin_Heat_Simulator.Utilities.forward_solve_2D import Fin_2D
-from Thermal_Fin_Heat_Simulator.Utilities.forward_solve_3D import Fin_3D
+from Thermal_Fin_Heat_Simulator.Utilities.forward_solve import Fin
 from Thermal_Fin_Heat_Simulator.Utilities.thermal_fin import get_space_2D, get_space_3D
-from Thermal_Fin_Heat_Simulator.Utilities.plot_3D import plot_mesh_3D
+from Thermal_Fin_Heat_Simulator.Utilities.plot_3D import plot_3D
 
 import pdb #Equivalent of keyboard in MATLAB, just add "pdb.set_trace()"
 
@@ -32,7 +31,7 @@ def generate_thermal_fin_data(data_file_name, num_data, generate_nine_parameters
         solver = Fin_2D(V)  
     if generate_3D == 1:    
         V, mesh = get_space_3D(40)
-        solver = Fin_3D(V)
+        solver = Fin_2D(V)
     print(V.dim())  
   
     #=== Create storage arrays ===#
@@ -49,11 +48,13 @@ def generate_thermal_fin_data(data_file_name, num_data, generate_nine_parameters
 
     # check if actually boundary points
     #mesh_coordinates = mesh.coordinates()
-    #obs_coor = np.zeros((len(obs_indices_bnd),3))        
+    #obs_coor = np.zeros((len(obs_indices_full),3))        
     #obs_counter = 0
-    #for ind in obs_indices_bnd:
+    #for ind in obs_indices_full:
         #obs_coor[obs_counter,:] = mesh_coordinates[ind,:]
         #obs_counter = obs_counter + 1
+        
+    #pdb.set_trace()
     
     #=== Generating Parameters and State ===#
     for m in range(num_data):

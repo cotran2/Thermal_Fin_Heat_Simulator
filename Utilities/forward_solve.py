@@ -11,9 +11,9 @@ class SubFin(SubDomain):
 
     def inside(self, x, on_boundary):
         if self.is_left:
-            return (between(x[0], (0.0, 2.5)) and between(x[1], (self.y_b, self.y_b+0.75)) and between(x[2], (0.0, 0.5)))
+            return (between(x[0], (0.0, 2.5)) and between(x[1], (self.y_b, self.y_b+0.75)))
         else:
-            return (between(x[0], (3.5, 6.0)) and between(x[1], (self.y_b, self.y_b+0.75)) and between(x[2], (0.0, 0.5)))
+            return (between(x[0], (3.5, 6.0)) and between(x[1], (self.y_b, self.y_b+0.75)))
 
 class SubFinBoundary(SubDomain):
     def __init__(self, subfin_bdry, **kwargs):
@@ -23,13 +23,11 @@ class SubFinBoundary(SubDomain):
 
     def inside(self, x, on_boundary):
         if self.is_left:
-            return (on_boundary and between(x[0], (0.0, 2.5))
-                                and between(x[1], (self.y_b, self.y_b+0.75))
-                                and between(x[2], (0.0, 0,5)))
+            return (on_boundary and between(x[0], (0.0, 2.5)) 
+                                and between(x[1], (self.y_b, self.y_b+0.75)))
         else:
             return (on_boundary and between(x[0], (3.5, 6.0)) 
-                                and between(x[1], (self.y_b, self.y_b+0.75))
-                                and between(x[2], (0.0, 0,5)))
+                                and between(x[1], (self.y_b, self.y_b+0.75)))
 
 class CenterFin(SubDomain):
     def inside(self, x, on_boundary):
@@ -93,7 +91,7 @@ class SubfinValExpr(UserExpression):
     def value_shape(self):
         return ()
 
-class Fin_3D:
+class Fin:
     '''
     A class the implements the heat conduction problem for a thermal fin
     '''

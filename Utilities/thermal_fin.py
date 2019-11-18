@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from dolfin import *
 from mshr import Rectangle, Box, generate_mesh
-from Thermal_Fin_Heat_Simulator.Utilities.plot_3D import plot_mesh_3D
+from Thermal_Fin_Heat_Simulator.Utilities.plot_3D import plot_3D
 
 import pdb #Equivalent of keyboard in MATLAB, just add "pdb.set_trace()"
 
@@ -51,7 +51,7 @@ def get_space_3D(resolution):
     mesh = generate_mesh(geometry, resolution)
     
     #=== Plotting Mesh ===#
-    #plot_mesh_3D(mesh, title = '3D Thermal Fin', angle = 180)
+    #plot_3D(mesh, title = '3D Thermal Fin', angle_1 = 60, angle_2 = 180)
     #plt.show()
     
     #=== Generating Function Space ===#
