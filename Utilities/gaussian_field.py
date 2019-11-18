@@ -2,19 +2,24 @@ import numpy as np
 from scipy import linalg, spatial
 from fenics import Function, plot
 import matplotlib.pyplot as plt
+
 import pdb #Equivalent of keyboard in MATLAB, just add "pdb.set_trace()"
 
-def make_cov_chol(V, kern_type='m52', length=1.6):
-    Wdofs_x = V.tabulate_dof_coordinates().reshape((-1, 2))
+def make_cov_chol(V, generate_2D, generate_3D, kern_type='m52', length=1.6):
     V0_dofs = V.dofmap().dofs()
-    points = Wdofs_x[V0_dofs, :] 
+    if generate_2D == 1:
+        Wdofs_x = V.tabulate_dof_coordinates().reshape((-1, 2))
+        points = Wdofs_x[V0_dofs, :] 
+    if generate_3D == 1:
+        Wdofs_x = V.tabulate_dof_coordinates().reshape((-1, 3))
+        points = Wdofs_x[V0_dofs, :]   
     dists = spatial.distance.pdist(points)
     dists = spatial.distance.squareform(dists)
-
+    
     if kern_type=='sq_exp':
         # Squared Exponential / Radial Basis Function
         alpha = 1 / (2 * length ** 2)
-        noise_var = 1e-5
+        noise_var = 1e-2
         cov = np.exp(-alpha * dists ** 2) + np.eye(len(points)) * noise_var
     elif kern_type=='m52':
         # Matern52

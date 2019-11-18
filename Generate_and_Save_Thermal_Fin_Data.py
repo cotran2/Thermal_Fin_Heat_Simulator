@@ -20,18 +20,20 @@ from Thermal_Fin_Heat_Simulator.Utilities.thermal_fin import get_space_2D, get_s
 from Thermal_Fin_Heat_Simulator.Utilities.plot_3D import plot_3D
 
 import pdb #Equivalent of keyboard in MATLAB, just add "pdb.set_trace()"
-
 ###############################################################################
-#                        Generate Parameters and Data                         #
+#                                   Methods                                   #
 ############################################################################### following Sheroze's "test_thermal_fin_gradient.py" code
 def generate_thermal_fin_data(data_file_name, num_data, generate_nine_parameters, generate_varying, generate_2D, generate_3D):
     #=== Generate Dolfin function space and mesh ===#
     if generate_2D == 1:
         V, mesh = get_space_2D(40)
-        solver = Fin_2D(V)  
+        kern_type = 'm32'
+        cov_length = 0.8
     if generate_3D == 1:    
         V, mesh = get_space_3D(40)
-        solver = Fin_2D(V)
+        cov_length = 0.8
+        kern_type = 'm52'
+    solver = Fin(V)
     print(V.dim())  
   
     #=== Create storage arrays ===#
@@ -62,9 +64,9 @@ def generate_thermal_fin_data(data_file_name, num_data, generate_nine_parameters
         print('Data Set %d of %d\n' %(m+1, num_data))
         # Generate parameters
         if generate_nine_parameters == 1:
-            parameter_data[m,:], parameter_dl = parameter_generator_nine_values(V,solver)
+            parameter_data[m,:], parameter_dl = parameter_generator_nine_values(V, solver, generate_2D, generate_3D, kern_type, cov_length)
         if generate_varying == 1:
-            parameter_data[m,:], parameter_dl = parameter_generator_varying(V,solver)              
+            parameter_data[m,:], parameter_dl = parameter_generator_varying(V, solver, generate_2D, generate_3D, cov_length)              
         # Solve PDE for state variable
         state_dl, _ = solver.forward(parameter_dl)    
         state_data = state_dl.vector().get_local()
@@ -73,8 +75,8 @@ def generate_thermal_fin_data(data_file_name, num_data, generate_nine_parameters
         
     return parameter_data, state_data_full, state_data_bnd, obs_indices_full, obs_indices_bnd
 
-def parameter_generator_nine_values(V, solver, length = 0.8):
-    chol = make_cov_chol(V, length)
+def parameter_generator_nine_values(V, solver, generate_2D, generate_3D, kern_type = 'm32', length = 0.8):
+    chol = make_cov_chol(V, generate_2D, generate_3D, kern_type, length = length)
     norm = np.random.randn(len(chol))
     generated_parameter = np.exp(0.5 * chol.T @ norm) 
     parameter_dl = convert_array_to_dolfin_function(V,generated_parameter)
@@ -83,8 +85,8 @@ def parameter_generator_nine_values(V, solver, length = 0.8):
     
     return generated_parameter, parameter_dl
 
-def parameter_generator_varying(V, solver, length = 0.8):
-    chol = make_cov_chol(V, length)
+def parameter_generator_varying(V, solver, generate_2D, generate_3D, kern_type = 'm32', length = 0.8):
+    chol = make_cov_chol(V, generate_2D, generate_3D, kern_type, length = length)
     norm = np.random.randn(len(chol))
     generated_parameter = np.exp(0.5 * chol.T @ norm) 
     parameter_dl = convert_array_to_dolfin_function(V,generated_parameter)
@@ -114,8 +116,8 @@ if __name__ == "__main__":
     generate_test_data = 0
     
     #===  Select Parameter Type ===#
-    generate_nine_parameters = 1
-    generate_varying = 0
+    generate_nine_parameters = 0
+    generate_varying = 1
     
     #=== Select Thermal Fin Dimension ===#
     generate_2D = 0
@@ -165,4 +167,3 @@ if __name__ == "__main__":
     df_state_data_bnd = pd.DataFrame({'state_data': state_data_bnd.flatten()})
     df_state_data_bnd.to_csv(state_bnd_savefilepath + '.csv', index=False) 
     print('\n All Data Saved')
-

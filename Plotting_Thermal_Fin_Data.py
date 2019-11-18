@@ -9,7 +9,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import dolfin as dl
 
-from Thermal_Fin_Heat_Simulator.Utilities.thermal_fin import get_space_2D
+from Thermal_Fin_Heat_Simulator.Utilities.thermal_fin import get_space_2D, get_space_3D
 from Thermal_Fin_Heat_Simulator.Utilities.forward_solve import Fin
 from Thermal_Fin_Heat_Simulator.Generate_and_Save_Thermal_Fin_Data import convert_array_to_dolfin_function
 from Thermal_Fin_Heat_Simulator.Utilities.plot_3D import plot_3D
@@ -28,8 +28,8 @@ if __name__ == "__main__":
     generate_test_data = 0
     
     #===  Select Parameter Type ===#
-    generate_nine_parameters = 1
-    generate_varying = 0
+    generate_nine_parameters = 0
+    generate_varying = 1
     
     #=== Select Thermal Fin Dimension ===#
     generate_2D = 0
@@ -64,11 +64,10 @@ if __name__ == "__main__":
 ###############################################################################
     #=== Fenics Solver ===#
     if generate_2D == 1:
-        V,_ = get_space_2D(40)
-        solver = Fin_2D(V) 
+        V, mesh = get_space_2D(40)
     if generate_3D == 1:
-        V,_ = get_space_3D(40)
-        solver = Fin_3D(V) 
+        V, mesh = get_space_3D(40)
+    solver = Fin(V) 
     
     #=== Loading Parameter, State and Observation Indices ===#
     df_parameter = pd.read_csv(parameter_savefilepath + '.csv')
@@ -93,14 +92,14 @@ if __name__ == "__main__":
     if generate_2D == 1:
         p_fig = dl.plot(parameter_dl)
     if generate_3D == 1:   
-        p_fig = plot_3D(parameter_dl, 'Parameter', angle_1 = 70, angle_2 = 270)
+        p_fig = plot_3D(parameter_dl, 'Parameter', angle_1 = 90, angle_2 = 270)
     plt.colorbar(p_fig)
     plt.show()
     
     if generate_2D == 1:
         s_fig = dl.plot(state_dl)
     if generate_3D == 1:     
-        s_fig = plot_3D(state_dl, 'Parameter', angle_1 = 70, angle_2 = 270)
+        s_fig = plot_3D(state_dl, 'Parameter', angle_1 = 90, angle_2 = 270)
     plt.colorbar(s_fig)
     plt.show()
     

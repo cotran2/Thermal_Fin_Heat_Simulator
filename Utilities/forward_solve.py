@@ -191,7 +191,6 @@ class Fin:
          B - Discretized RHS
          C - Averaging operator
         '''
-
         z = Function(self.V)
 
         self._k.assign(k)
