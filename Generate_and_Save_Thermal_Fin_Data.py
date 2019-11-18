@@ -122,8 +122,8 @@ if __name__ == "__main__":
     generate_test_data = 1
     
     #===  Select Parameter Type ===#
-    generate_nine_parameters = 1
-    generate_varying = 0
+    generate_nine_parameters = 0
+    generate_varying = 1
     
     #=== Select Thermal Fin Dimension ===#
     generate_2D = 0
