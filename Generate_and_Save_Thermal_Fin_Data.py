@@ -82,6 +82,12 @@ def parameter_generator_nine_values(V, solver, generate_2D, generate_3D, kern_ty
     parameter_dl = convert_array_to_dolfin_function(V,generated_parameter)
     generated_parameter = solver.subfin_avg_op(parameter_dl)
     parameter_dl = solver.nine_param_to_function(generated_parameter)
+    if generate_3D == 1: # Interpolation messes up sometimes and makes some values equal 0
+        parameter_values = parameter_dl.vector().get_local()  
+        zero_indices = np.where(parameter_values == 0)[0]
+        for ind in zero_indices:
+            parameter_values[ind] = parameter_values[ind-1]
+        parameter_dl = convert_array_to_dolfin_function(V, parameter_values)
     
     return generated_parameter, parameter_dl
 
@@ -116,8 +122,8 @@ if __name__ == "__main__":
     generate_test_data = 0
     
     #===  Select Parameter Type ===#
-    generate_nine_parameters = 0
-    generate_varying = 1
+    generate_nine_parameters = 1
+    generate_varying = 0
     
     #=== Select Thermal Fin Dimension ===#
     generate_2D = 0

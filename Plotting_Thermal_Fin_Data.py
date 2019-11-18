@@ -5,6 +5,7 @@ Created on Sun Nov 17 16:01:02 2019
 
 @author: hwan
 """
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import dolfin as dl
@@ -28,8 +29,8 @@ if __name__ == "__main__":
     generate_test_data = 0
     
     #===  Select Parameter Type ===#
-    generate_nine_parameters = 0
-    generate_varying = 1
+    generate_nine_parameters = 1
+    generate_varying = 0
     
     #=== Select Thermal Fin Dimension ===#
     generate_2D = 0
@@ -82,7 +83,12 @@ if __name__ == "__main__":
     #=== Converting Into Fenics Objects ===#
     if generate_nine_parameters == 1:
         parameter_dl = solver.nine_param_to_function(parameter)
-        parameter_values = parameter_dl.vector().get_local()  
+        if generate_3D == 1: # Interpolation messes up sometimes and makes some values equal 0
+            parameter_values = parameter_dl.vector().get_local()  
+            zero_indices = np.where(parameter_values == 0)[0]
+            for ind in zero_indices:
+                parameter_values[ind] = parameter_values[ind-1]
+            parameter_dl = convert_array_to_dolfin_function(V, parameter_values)
     if generate_varying == 1:
         parameter_dl = convert_array_to_dolfin_function(V,parameter)
     state_dl, _ = solver.forward(parameter_dl) # generate true state for comparison
