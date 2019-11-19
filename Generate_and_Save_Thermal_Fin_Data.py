@@ -126,8 +126,8 @@ if __name__ == "__main__":
     generate_varying = 1
     
     #=== Select Thermal Fin Dimension ===#
-    generate_2D = 0
-    generate_3D = 1
+    generate_2D = 1
+    generate_3D = 0
     
     #=== Defining Filenames and Creating Directories ===#
     if generate_train_data == 1:
