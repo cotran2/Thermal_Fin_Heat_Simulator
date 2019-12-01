@@ -13,6 +13,7 @@ sys.path.append('..')
 import numpy as np
 import pandas as pd
 import mpi4py
+pdb.set_trace()
 import dolfin as dl
 import matplotlib as plt
 from Thermal_Fin_Heat_Simulator.Utilities.gaussian_field import make_cov_chol
