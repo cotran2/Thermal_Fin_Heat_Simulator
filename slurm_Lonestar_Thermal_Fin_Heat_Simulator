@@ -3,7 +3,7 @@
 #SBATCH -J Generate_and_Save_Thermal_Fin_Data
 #SBATCH -p gpu
 #SBATCH -N 1
-#SBATCH -n 4
+#SBATCH -n 1
 #SBATCH -t 12:00:00
 #SBATCH -o Generate_and_Save_Thermal_Fin_Data.out
 #SBATCH --mail-user=Hwan.Goh@gmail.com
