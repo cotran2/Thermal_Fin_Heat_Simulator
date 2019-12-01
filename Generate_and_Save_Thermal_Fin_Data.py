@@ -13,6 +13,7 @@ sys.path.append('..')
 import numpy as np
 import pandas as pd
 import mpi4py
+import pdb
 pdb.set_trace()
 import dolfin as dl
 import matplotlib as plt
