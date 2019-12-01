@@ -11,4 +11,4 @@
 
 module load intel/17.0.4 python3/3.6.3 cuda/10.0 cudnn/7.6.2 nccl/2.4.7
 
-ibrun ./Generate_and_Save_Thermal_Fin_Data.py 
+ibrun exec /work/06537/hwangoh/lonestar/miniconda3/envs/fenicsproject/bin/python3 Generate_and_Save_Thermal_Fin_Data.py 
