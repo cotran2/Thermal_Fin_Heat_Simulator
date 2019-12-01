@@ -10,9 +10,9 @@ To avoid using dolfin when training the neural network, the data generation and 
 import sys
 sys.path.append('..')
 
+import dolfin as dl
 import numpy as np
 import pandas as pd
-import dolfin as dl
 import matplotlib as plt
 from Thermal_Fin_Heat_Simulator.Utilities.gaussian_field import make_cov_chol
 from Thermal_Fin_Heat_Simulator.Utilities.forward_solve import Fin
