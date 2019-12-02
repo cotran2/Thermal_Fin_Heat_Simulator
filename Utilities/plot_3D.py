@@ -4,6 +4,7 @@
 Created on Sun Nov 17 11:47:02 2019
 
 @author: hwan - Took out relevant code from dolfin's plotting.py _plot_matplotlib code
+              - To enter dolfin's own plotting code, use dl.plot(some_dolfin_object) wheresome_dolfin_object is a 3D object and an error will be thrown up
 """
 import matplotlib.pyplot as plt
 import dolfin.cpp as cpp
